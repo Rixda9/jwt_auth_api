@@ -1,7 +1,12 @@
+from dotenv import load_dotenv
+import os
 import bcrypt
 import jwt
 
-SECRET_KEY = "J4zpBP25xYZwzKWfEHpVCHxf8xqj0dSE"
+
+load_dotenv()
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 def hash_func(password):
 
@@ -34,11 +39,8 @@ def create_token(username):
 
 def verify_token(token):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithm=['HS256'])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         return payload
     except jwt.InvalidTokenError:
         return None
     
-if __name__ == "__main__":
-    create_token("test")
-
